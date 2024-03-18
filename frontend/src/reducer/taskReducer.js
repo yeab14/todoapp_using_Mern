@@ -1,7 +1,6 @@
 function taskReducer(tasks, action) {
     console.log("taskreducer");
     switch (action.type) {
-        // eslint-disable-next-line no-lone-blocks
         case "ADD_TASK": {
             return [
                 ...tasks,
@@ -28,6 +27,18 @@ function taskReducer(tasks, action) {
                 }
                 return task
             })
+        }
+        case "UPDATE_TASK": {
+            return tasks.map((task, index) => {
+                if (index === action.id) {
+                    return {
+                        ...task,
+                        title: action.title,
+                        description: action.description
+                    }
+                }
+                return task;
+            });
         }
         default: {
             throw Error("Unknown Action" + action.type)

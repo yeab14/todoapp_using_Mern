@@ -34,7 +34,7 @@ const forgotPassword = async (req, res) => {
     });
 
     var mailOptions = {
-        from: 'alok.yadav6000@gmail.com',
+        from: 'alok.yeab149@gmail.com',
         to: email,
         subject: "Reset Password",
         html:`<h1>Reset Password</h1><h2>Click on the link to reset your password</h2><h3>${resetUrl}</h3>`

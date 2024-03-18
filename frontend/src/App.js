@@ -15,12 +15,15 @@ import Login from './components/Login';
 import Register from './components/Register';
 import ForgotPassword from './components/forgotPassword/ForgotPassword';
 import ResetPassword from './components/forgotPassword/ResetPassword';
+import Update from './components/UpdateTask.jsx'; // Import Update component
 import axios from './Axios/axios.js';
+
 function App() {
   const token = JSON.parse(localStorage.getItem("authToken"));
   const [tasks, dispatch] = useReducer(taskReducer, [])
   const [userToken, tokenDispatch] = useReducer(tokenReducer, token)
   const [user, userDispatch] = useReducer(userReducer, {})
+
   useEffect(() => {
     console.log("App.js");
     const fetchUser = async () => {
@@ -31,8 +34,6 @@ function App() {
             Authorization: `Bearer ${userToken}`
           }
         })
-        //tokenDispatch({type: "SET_TOKEN", payload: res.token})
-        console.log("res.data: ", res.data);
         userDispatch({type: "SET_USER", payload:res.data.user})
       } catch (error) {
         console.log(error);
@@ -42,6 +43,7 @@ function App() {
       fetchUser()
     }
   },[userToken])
+
   useEffect(() => {
     const fetchTasks = async () => {
       try {
@@ -60,6 +62,7 @@ function App() {
       fetchTasks()
     }
   },[userToken])
+
   return (
     <BrowserRouter>
       <TokenContext.Provider value={{userToken, tokenDispatch, user, userDispatch}}>
@@ -70,6 +73,8 @@ function App() {
                 <Route index element={<AllTask />} />
                 <Route path="active" element={<Active />} />
                 <Route path="completed" element={<Completed />} />
+                {/* Add Route for Update component */}
+                <Route path="update/:id" element={<Update />} />
               </Route>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
@@ -79,7 +84,6 @@ function App() {
           </Routes>
         </TaskContext.Provider>
       </TokenContext.Provider>
-
     </BrowserRouter>
   );
 }
